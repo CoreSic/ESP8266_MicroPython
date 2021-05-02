@@ -9,21 +9,31 @@ from machine import Timer
 exec(open('ssd1306.py').read(),globals())
 exec(open('weather.py').read(),globals())
 
+
+def led_on_off(num):
+     for i in range(1,128,num):
+       led.value(0)
+       oled.hline(0,63,i,1)
+       oled.show()
+       time.sleep(0.01)
+       led.value(1)
+       time.sleep(0.01)
+
 def sync_ntp():
      ntptime.NTP_DELTA = 3155644800   # 可选 UTC+8偏移时间（秒），不设置就是UTC0
      ntptime.host = 'ntp1.aliyun.com'  # 可选，ntp服务器，默认是"pool.ntp.org"
      ntptime.settime()   # 修改设备时间,到这就已经设置好了
 
+led_on_off(21)
 sync_ntp()
 rtc = RTC()
 datetime = rtc.datetime()  # 获取当前时间
 print(str(datetime[0]) + '-' + str(datetime[1]) + '-' + str(datetime[2]) + ' ' + str(datetime[3]) + '-' + str(datetime[4]) + '-' + str(datetime[5]) + '-' + str(datetime[6]))
-oled.text(str(datetime[4]) + '-' + str(datetime[5]) + '-' + str(datetime[6]), 0, 20)#hour #minue #second
 
 oled.text('IP:', 0, 0)
 oled.text(station.ifconfig()[0], 25, 0)
-oled.text('Hello', 0, 30)
-oled.text('World', 50, 30)
+oled.text(str(datetime[0]) + '-' + str(datetime[1]) + '-' + str(datetime[2]), 30, 45)
+oled.text(str(datetime[4]) + ':' + str(datetime[5]) + ':' + str(datetime[6]), 30, 25)#hour #minue #second
 oled.show()
 time.sleep(2)
 
@@ -52,13 +62,13 @@ def oled_display(tim):
   oled.fill(0)
   oled.text('IP:', 0, 0)
   oled.text(station.ifconfig()[0], 25, 0)
-  oled.text('Hello', 0, 30)
-  oled.text('World', 50, 30)
   rtc = RTC()
   datetime = rtc.datetime()  # 获取当前时间
-  oled.text(str(datetime[4]) + '-' + str(datetime[5]) + '-' + str(datetime[6]), 0, 20)#hour #minue #second
+  oled.hline(0,63,127,1)
+  oled.text(str(datetime[0]) + '-' + str(datetime[1]) + '-' + str(datetime[2]), 30, 45)
+  oled.text(str(datetime[4]) + ':' + str(datetime[5]) + ':' + str(datetime[6]), 30, 25)#hour #minue #second
   oled.show()
-  #time.sleep(0.01)
+  time.sleep(0.01)
 
 
 tim = Timer(-1)
@@ -92,3 +102,4 @@ while True:
   time.sleep(0.01)
   
   
+
