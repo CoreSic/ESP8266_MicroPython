@@ -12,18 +12,29 @@ MicroPython是Python 3编程语言的精简高效实现 ，包括Python标准库
 > uPyCraft软件简介：uPyCraft是DFRobot正在开发的，一款专门为micropython设计的IDE
 
 uPyCraft界面如下：
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210430231247903.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDI0ODkwOQ==,size_16,color_FFFFFF,t_70)
+
 首先需要烧录micropython-ESP8266的固件，我们将开发板通过USB转串口连接电脑。
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210430231430808.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDI0ODkwOQ==,size_16,color_FFFFFF,t_70)
+
 选择ESP8266以及对应的串口号
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210430231644578.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDI0ODkwOQ==,size_16,color_FFFFFF,t_70)
+
 然后就等待固件烧写到开发板中。
 
 固件烧录好后将板子通过串口连接到uPyCraft软件。
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/2021043023183616.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDI0ODkwOQ==,size_16,color_FFFFFF,t_70)
+
 连上后，下方框中会出现```>>>```表示连接成功。
+
 现在我们可以通过下方交互式命令窗口对开发板进行操作，也可以通过```file->new```新建py文件进行操作。
+
 编写好py文件后，点击右侧三角将文件下载到开发板并运行。整个开发过程就怎么简单，当然复杂的功能编写要麻烦一点。
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210430232530848.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDI0ODkwOQ==,size_16,color_FFFFFF,t_70)
 
 
@@ -36,10 +47,13 @@ uPyCraft界面如下：
 接下来将介绍使用webrepl与开发板进行交互。
 
 webrepl网页界面如下：
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210430225954901.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDI0ODkwOQ==,size_16,color_FFFFFF,t_70)
+
 使用webrepl，我们需要开启ESP8266的STA模式
 
 在uPyCraft中依次输入以下命令获取IP
+
 ```powershell
 import webrepl
 ssid="WiFi名"
@@ -49,9 +63,13 @@ wlan.active(True)
 wlan.connect(ssid,password)
 wlan.ifconfig()
 ```
+
 如果连接成功，会输出类似于192.168.1.54的IP号，用该IP替换webrepl中原有的IP，点击连接，输入密码即可。
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/2021043023412698.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDI0ODkwOQ==,size_16,color_FFFFFF,t_70)
+
 webrepl右侧可以选择文件上传到开发板，也可以将开发板指定文件下载到本地。
+
 ## 3.ESP8266获取网络时间并在OLED上显示
 
 ```powershell
@@ -66,8 +84,10 @@ datetime = rtc.datetime()  # 获取当前时间
 oled.text(str(datetime[4]) + ':' + str(datetime[5]) + ':' + str(datetime[6]), 30, 25)#hour #minue #second
 oled.show()
 ```
+
 完整代码见[ESP8266_MicroPython](https://download.csdn.net/download/weixin_44248909/18282094)
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210502143237256.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDI0ODkwOQ==,size_16,color_FFFFFF,t_70)
+
 ## 4.网页控制led亮灭
 
 ```powershell
@@ -115,7 +135,9 @@ while True:
   conn.close()
   time.sleep(0.01)
 ```
+
 网页控制效果如下：
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/2021050214404387.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDI0ODkwOQ==,size_16,color_FFFFFF,t_70)
 
 文章中所提及的所有软件、源代码、webrepl网页请点击[ESP8266_MicroPython](https://download.csdn.net/download/weixin_44248909/18282094)下载。
